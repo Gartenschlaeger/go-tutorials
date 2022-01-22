@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/binary"
 	"encoding/csv"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -16,6 +18,7 @@ func main() {
 	readBytesFromFile("./test.tmp.bin")
 
 	createCsvFile("./test.tmp.csv")
+	readCsvFile("./test.tmp.csv")
 }
 
 func must(err error) {
@@ -68,4 +71,21 @@ func createCsvFile(path string) {
 	writter.Write([]string{"Susi", "Strolch"})
 	writter.Write([]string{"Susi\"blubb", "Strolch"})
 	writter.Flush()
+}
+
+func readCsvFile(path string) {
+	file, errOpen := os.Open(path)
+	must(errOpen)
+
+	reader := csv.NewReader(bufio.NewReader(file))
+	reader.Comma = ','
+
+	for {
+		record, errRead := reader.Read()
+		if errRead == io.EOF {
+			break
+		}
+
+		fmt.Println(record, len(record))
+	}
 }
