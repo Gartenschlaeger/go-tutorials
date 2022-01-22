@@ -30,10 +30,8 @@ func createTextfile() {
 }
 
 func readTextfile() {
-	data, err := os.ReadFile(filename)
-	if err != nil {
-		panic(err)
-	}
+	data, errRead := os.ReadFile(filename)
+	must(errRead)
 
 	fmt.Println(data)
 }
