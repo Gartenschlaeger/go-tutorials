@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/binary"
+	"encoding/csv"
 	"fmt"
 	"os"
 )
@@ -13,6 +14,8 @@ func main() {
 
 	createBinaryFile("./test.tmp.bin")
 	readBytesFromFile("./test.tmp.bin")
+
+	createCsvFile("./test.tmp.csv")
 }
 
 func must(err error) {
@@ -49,4 +52,20 @@ func createBinaryFile(path string) {
 
 	_, errWrite := file.Write(_buf.Bytes())
 	must(errWrite)
+}
+
+func createCsvFile(path string) {
+	file, errOpen := os.Create(path)
+	must(errOpen)
+	defer file.Close()
+
+	writter := csv.NewWriter(file)
+	writter.Comma = ','
+	writter.UseCRLF = false
+
+	writter.Write([]string{"Firstname", "Lastname"})
+	writter.Write([]string{"Max", "Mustermann"})
+	writter.Write([]string{"Susi", "Strolch"})
+	writter.Write([]string{"Susi\"blubb", "Strolch"})
+	writter.Flush()
 }
