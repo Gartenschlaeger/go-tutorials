@@ -21,6 +21,7 @@ func main() {
 
 	fmt.Println(Add(10, 12))
 	fmt.Println(Sum(1, 2, 4, 8, 16, 32))
+	fmt.Println(GetMinMax(5, 9, 7, 3, 1, 6))
 }
 
 func greeter() {
@@ -42,4 +43,25 @@ func Sum(values ...int) int {
 	}
 
 	return sum
+}
+
+func GetMinMax(values ...int) (int, int) {
+	var min int
+	var hasMin = false
+
+	var max int
+	var hasMax = false
+
+	for _, val := range values {
+		if !hasMin || val < min {
+			hasMin = true
+			min = val
+		}
+		if !hasMax || val > max {
+			hasMax = true
+			max = val
+		}
+	}
+
+	return min, max
 }
