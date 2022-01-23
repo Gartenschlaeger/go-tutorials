@@ -6,12 +6,6 @@ import (
 	"net/http"
 )
 
-func must(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
 func main() {
 
 	response, err := http.Get("https://www.kaisnet.de/ip.php")
@@ -34,4 +28,10 @@ func main() {
 
 	fmt.Println("Body", string(data))
 
+}
+
+func must(err error) {
+	if err != nil {
+		panic(err)
+	}
 }
